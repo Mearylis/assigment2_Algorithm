@@ -26,12 +26,14 @@ public class AdvancedBenchmarkRunner {
     }
 
     private static void generateCSVReports() {
-        File docsDir = new File("docs");
+        // Берем путь к текущему классу (src рядом)
+        String basePath = System.getProperty("user.dir") + "/src/docs";
+        File docsDir = new File(basePath);
         if (!docsDir.exists()) {
             docsDir.mkdirs();
         }
 
-        String csvPath = "docs/performance_metrics.csv";
+        String csvPath = basePath + "/performance_metrics.csv";
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(csvPath))) {
             writer.write(CSV_HEADER);
@@ -41,7 +43,7 @@ public class AdvancedBenchmarkRunner {
             for (int size : SIZES) {
                 int[] array = generateArrayWithMajority(size);
                 bm.findMajority(array);
-                writer.write(bm.getTracker().getMetricsCSV() + "," + size + "\n");
+                writer.write("BoyerMoore," + size + "," + bm.getTracker().getMetricsCSV() + "\n");
             }
 
             // Kadane metrics
@@ -49,10 +51,10 @@ public class AdvancedBenchmarkRunner {
             for (int size : SIZES) {
                 int[] array = generateMixedArray(size);
                 kadane.findMaximumSubarray(array);
-                writer.write(kadane.getTracker().getMetricsCSV() + "," + size + "\n");
+                writer.write("Kadane," + size + "," + kadane.getTracker().getMetricsCSV() + "\n");
             }
 
-            System.out.println("CSV report generated: " + csvPath);
+            System.out.println("CSV report generated: " + new File(csvPath).getAbsolutePath());
 
         } catch (IOException e) {
             System.err.println("ERROR generating CSV report: " + e.getMessage());

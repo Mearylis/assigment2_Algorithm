@@ -1,5 +1,4 @@
 package algorithms.array;
-
 import algorithms.metrics.PerformanceTracker;
 
 /**

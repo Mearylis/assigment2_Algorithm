@@ -1,6 +1,7 @@
 package algorithms.cli;
 
-import algorithms.array.*;
+import algorithms.array.BoyerMooreMajorityVote;
+import algorithms.array.KadaneAlgorithm;
 import java.util.*;
 
 public class BenchmarkRunner {
